@@ -32,3 +32,6 @@ Step 7 - Sort spots
 
 Step 8 - Convert
     This script generates a dataframe and a list of all chromatin traces from all 4 replicates from Mecp2 +/- mice for further analysis.
+
+Step 9 - Distance maps
+    This script generates median distance maps at both majortype and subclass level. Moreover, it generates the pkl files containing chromosome location information grouped by cell types and genotypes.
