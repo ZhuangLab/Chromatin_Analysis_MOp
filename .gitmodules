@@ -1,0 +1,3 @@
+[submodule "jie"]
+	path = jie
+	url = https://github.com/cosmosyw/jie.git
