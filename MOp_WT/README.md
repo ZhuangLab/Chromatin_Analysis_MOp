@@ -3,7 +3,7 @@
 Python scritps to for library design, image preprocessing, and postanalysis for MERFISH data of the primary motor cortex (MOp) from wild-type mouse brains.
 
 
-- Main components of this respository: 
+Main components of this respository: 
 
  - **library_design** includes scripts for probe design for MERFISH imaging, 
  
