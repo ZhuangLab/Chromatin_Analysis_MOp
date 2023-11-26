@@ -1,3 +1,6 @@
 [submodule "jie"]
 	path = jie
 	url = https://github.com/cosmosyw/jie.git
+[submodule "ImageAnalysis3"]
+	path = ImageAnalysis3
+	url = https://github.com/zhengpuas47/ImageAnalysis3
