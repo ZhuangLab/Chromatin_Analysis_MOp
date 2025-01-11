@@ -351,9 +351,9 @@ def generate_gene_dist_bins (step_size = 100, # step size by 2**
     gene_dist_bins = [(gene_dist_list[i], gene_dist_list[i+1]) for i in range(len(gene_dist_list)-1)]
     
     return gene_dist_bins
-     
+
 # summarize the count grouped by gene dists
-def Chr2Zxys_list_2_cis_contact_summary(chr_2_zxys_list, df_refgen, gene_dist_bins, gene_dist_mtx_dict=None, contact_th =0.6):
+def Chr2Zxys_list_2_cis_contact_summary_v2(chr_2_zxys_list, df_refgen, gene_dist_bins, gene_dist_mtx_dict=None, contact_th =0.6):
     
 
     all_chrs = np.unique(df_refgen['chr'].values)
@@ -382,15 +382,15 @@ def Chr2Zxys_list_2_cis_contact_summary(chr_2_zxys_list, df_refgen, gene_dist_bi
                     _bin_end = gene_dist_bin[1]
                     contact_count = 0
                     for _ichr_distmap in _chr_distmap:
-                        contact_count += np.sum(_ichr_distmap & 
-                                                (gene_dist_mtx_chr >_bin_start) & # >start to remove dist 0
-                                                (gene_dist_mtx_chr <= _bin_end))
+                        contact_count += np.sum(np.triu(_ichr_distmap & 
+                                                (gene_dist_mtx_chr >_bin_start) & 
+                                                (gene_dist_mtx_chr <= _bin_end), k=1))
                     _contact_count_dict[_chr][gene_dist_bin] = contact_count
 
                 # get total counts
                 total_counts = 0
                 for _ichr_distmap in _chr_distmap:
-                    total_counts += np.sum(_ichr_distmap)
+                    total_counts += np.sum(np.triu(_ichr_distmap, k=1))
                 _contact_count_dict[_chr]['total'] = total_counts
             else:
                 # skip adding info for the missing chrom
@@ -400,9 +400,7 @@ def Chr2Zxys_list_2_cis_contact_summary(chr_2_zxys_list, df_refgen, gene_dist_bi
 
     return output_dict_list
 
-
-
-def Chr2Zxys_list_2_cis_contact_summary_batch_byclass (chr_2_zxys_list_dict, df_refgen, gene_dist_bins, gene_dist_mtx_dict=None, contact_th =0.6, num_threads = 16):
+def Chr2Zxys_list_2_cis_contact_summary_batch_byclass_v2 (chr_2_zxys_list_dict, df_refgen, gene_dist_bins, gene_dist_mtx_dict=None, contact_th =0.6, num_threads = 16):
 
     #prepare mp args
     mp_chr_2_zxys_list = []
@@ -418,7 +416,7 @@ def Chr2Zxys_list_2_cis_contact_summary_batch_byclass (chr_2_zxys_list_dict, df_
     _start_time = time.time()
     print(f"-- summarize chromosomal contacts for {len(mp_chr_2_zxys_list)} cell types with {num_threads} threads", end=' ')
     with mp.Pool(num_threads) as _summary_pool:
-        all_summary_lists = _summary_pool.starmap(Chr2Zxys_list_2_cis_contact_summary, zip(mp_chr_2_zxys_list, 
+        all_summary_lists = _summary_pool.starmap(Chr2Zxys_list_2_cis_contact_summary_v2, zip(mp_chr_2_zxys_list, 
                                                                                             mp_df_regen_list, 
                                                                                             mp_gene_dist_bins_list, 
                                                                                             mp_gene_dist_mtx_dict_list, 
@@ -438,6 +436,4 @@ def Chr2Zxys_list_2_cis_contact_summary_batch_byclass (chr_2_zxys_list_dict, df_
         _summary_dict = None
 
     return _summary_dict
-
-
 
