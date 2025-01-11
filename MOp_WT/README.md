@@ -15,7 +15,7 @@ Main components of this respository:
    - Preprocessed data were then used to generates output summary for scripts in **postanalysis**.
 
 
- - **postanalysis_2024** includes the current (2024) scripts to analyze DNA-MERFISH data for quantification and figures.
+ - **postanalysis_2025** includes the current (2025) scripts to analyze DNA-MERFISH data for quantification and figures.
 
  - **functions** includes scripts that are used for **postanalysis**.
 
